@@ -1,0 +1,15 @@
+[
+    {
+        "nombre": "Ejemplo (cámbialo)",
+        "activo": false,
+        "url": "https://www.ejemplo.cl/empleos?q={query}&page={page}",
+        "base": "https://www.ejemplo.cl",
+        "tarjeta": "div.oferta",
+        "titulo": "h2 a",
+        "empresa": ".empresa",
+        "ubicacion": ".ubicacion",
+        "fecha": ".fecha",
+        "descripcion": ".resumen",
+        "filtra_region_en_url": true
+    }
+]

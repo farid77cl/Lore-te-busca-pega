@@ -1,0 +1,8 @@
+# Una búsqueda por línea. Las líneas con # se saltan.
+# Pon los cargos que buscas, en palabras que usen los avisos (sin tildes funciona mejor).
+Analista de Proveedores
+Analista Control de Gestion
+Analista Contable
+Asistente Administrativo
+Asistente Comercial
+Analista de Compras

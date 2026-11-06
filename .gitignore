@@ -1,0 +1,13 @@
+lore_data/
+__pycache__/
+*.tmp
+.pytest_cache/
+
+# Tus datos personales nunca van a este repositorio
+jobs_db.json
+perfil.md
+cv_ats.md
+CV_*.docx
+postulaciones.md
+ajustes.json
+!templates/*
