@@ -72,6 +72,10 @@ Regiones: `arica_parinacota`, `tarapaca`, `antofagasta`, `atacama`, `coquimbo`, 
 
 Los sitios que piden iniciar sesión para ver las ofertas no se pueden agregar.
 
+## Programar la búsqueda
+
+Lore puede dejar la revisión corriendo sola: como tarea programada si usas Claude Code en la nube, o con `cron` (Mac/Linux) o el Programador de tareas (Windows) si la usas en tu computador. Desde tu computador también entran Indeed y la Bolsa Nacional de Empleo. Te pregunta al configurar; el detalle está en `SKILL.md`.
+
 ## El correo
 
 Para que Lore lea tus alertas y las respuestas de reclutadores, conecta Gmail en los Conectores de la configuración de claude.ai. Es opcional: sin correo, puedes pegarle las alertas o mandarle capturas.
@@ -128,5 +132,5 @@ MIT. Úsala, cópiala y adáptala libremente.
 
 - Solo Chile.
 - Fuera de la Región Metropolitana, algunos portales no filtran por región en la búsqueda: se busca en todo Chile y se filtra por comuna, así que llegan menos ofertas por búsqueda.
-- Indeed bloquea los navegadores de la nube; desde tu computador debería funcionar.
+- Indeed y la **Bolsa Nacional de Empleo** (bne.cl) bloquean las conexiones desde la nube. Desde tu computador deberían funcionar, y Lore puede sumar la BNE como sitio extra (ver «Nube o PC» en `SKILL.md`).
 - Los portales cambian su HTML de vez en cuando; si una fuente deja de traer ofertas, las otras siguen funcionando.

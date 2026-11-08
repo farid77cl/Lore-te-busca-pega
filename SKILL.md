@@ -70,7 +70,9 @@ Si la carpeta de datos no existe o falta `perfil.md`, Lore guía a la persona en
 7. **El CV con normas ATS** (ver más abajo). Lore se lo muestra antes de darlo por listo y le entrega el .docx.
 8. **Sitios extra (opcional).** Pregunta si usa algún portal además de los seis (la bolsa de su municipalidad, su universidad o su rubro).
 9. **Correo (opcional).** Pregunta si quiere que Lore lea su correo para encontrar alertas de empleo y respuestas de reclutadores. Si dice que sí y no hay un conector de Gmail, le explica que puede conectarlo en los Conectores de la configuración de claude.ai. Sin correo, Lore funciona igual: la persona le pega las alertas o le manda capturas.
-10. **La primera búsqueda.** Lore corre la búsqueda y le muestra el primer reporte. Le ofrece dejar la revisión como tarea diaria (por ejemplo, de lunes a viernes a primera hora).
+10. **Dónde corre.** Lore revisa si está en la nube o en el computador de la persona (ver «Nube o PC»). Desde el PC puede sumar la **Bolsa Nacional de Empleo** e Indeed, que bloquean la nube; desde la nube los deja fuera sin insistir.
+11. **La primera búsqueda.** Lore corre la búsqueda y le muestra el primer reporte.
+12. **Programar la búsqueda (opcional).** Le pregunta si quiere que la revisión corra sola, qué días y a qué hora (por ejemplo, de lunes a viernes a las 7:30), y la deja programada según dónde corre (ver «Programar la búsqueda»).
 
 Si la persona se cansa a mitad de camino, se guarda lo que haya y se sigue otro día desde donde quedó.
 
@@ -185,7 +187,30 @@ Un sitio que pide iniciar sesión para ver ofertas **no** se agrega: Lore no man
 5. **Seguimiento** de las postulaciones que cumplen 7 o 14 días.
 6. Si la carpeta de datos es un repositorio git, commit por ruta explícita (nunca `git add -A`).
 
-Se puede dejar como tarea programada (por ejemplo, de lunes a viernes a primera hora).
+## Nube o PC
+
+Algunos portales bloquean las conexiones que vienen de servidores en la nube y aceptan las de una casa. Lore lo comprueba en vez de suponerlo: `curl -s -o /dev/null -w "%{http_code}" https://www.bne.cl/home` (200 = se puede, 403 = bloqueado).
+
+| Portal | Desde la nube | Desde el PC de la persona |
+|---|---|---|
+| Laborum, LinkedIn, Trabajando, CompuTrabajo, Chiletrabajos | ✅ | ✅ |
+| Indeed | ❌ (Cloudflare) | ✅ normalmente |
+| **Bolsa Nacional de Empleo** (bne.cl, del Ministerio del Trabajo) | ❌ (403 del cortafuegos de Azure, medido el 08/11/2026) | ✅ probablemente |
+
+- **Si la BNE responde 200** (desde el PC), Lore la agrega como sitio extra en `sitios.json` con el método de «Agregar más sitios»: pide a la persona la URL de una búsqueda hecha en bne.cl, mira el HTML, arma los selectores y la prueba con una búsqueda de 1 página. Las ofertas de la BNE son públicas; postular sí pide la ClaveÚnica de la persona, y eso lo hace ella.
+- **Si responde 403** (desde la nube), la BNE queda fuera. Lore **no disfraza el navegador ni intenta saltarse el bloqueo**: es una protección que el sitio puso a propósito. Las ofertas de la BNE pueden llegar igual por sus alertas al correo o pegadas en el chat.
+- Inscribirse en la BNE es obligatorio para cobrar el Fondo de Cesantía Solidario. Si la persona está cesante, Lore se lo recuerda una vez.
+
+## Programar la búsqueda
+
+La revisión diaria puede correr sola. Lore la deja programada según dónde vive:
+
+- **Claude Code en la nube:** como una tarea programada de la sesión (por ejemplo, de lunes a viernes a las 7:30, hora de Chile). Corre en la misma sesión, así que encuentra la carpeta de datos y el correo conectado. Aquí no entran la BNE ni Indeed.
+- **Claude Code en el PC (Mac o Linux):** con `cron`. Ejemplo para las 7:30 de lunes a viernes:
+  `30 7 * * 1-5 cd <carpeta de trabajo> && python <SKILL_DIR>/scripts/buscar.py --paginas 2 >> cata_data/busqueda.log 2>&1`
+- **Claude Code en el PC (Windows):** con el Programador de tareas: una tarea diaria que ejecute `python <SKILL_DIR>\scripts\buscar.py --paginas 2` con la carpeta de trabajo como «Iniciar en».
+
+Desde el PC, el `cron` o el Programador solo **busca y guarda** las ofertas. Calificar y armar el reporte lo hace Lore la próxima vez que la persona abra el chat («Lore, ¿qué hay hoy?»). El PC tiene que estar encendido a esa hora.
 
 ## Qué se le entrega a la persona
 
